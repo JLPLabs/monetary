@@ -80,11 +80,11 @@ localize(thou: string, dec: string, cur: string)
 ................................................
 
 ``localize`` is used to set the separators used in the formatted string and the
-currency symbol.  The library defaults to ',' for thousands, '.' for decimal
-point and '$' for currency. To override these defaults call ``localize`` with
+currency symbol.  The library defaults to ``,`` for thousands, ``.`` for decimal
+point and ``$`` for currency. To override these defaults call ``localize`` with
 the desired separators.
 
-For example, to set '.' as thousands, ',' as decimal point and '€' for currency::
+For example, to set ``.`` as thousands, ``,`` as decimal point and ``€`` for currency::
 
   localize(".", ",", "€")
 

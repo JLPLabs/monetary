@@ -64,8 +64,8 @@ these defaults call this function with the desired separators.
 To set '.' as thousands and ',' as decimal point...
 ``setsep(".", ",")``
 
-strfmon(fmt: string, val: number)
-.................................
+strfmon(fmt: string, val: number): string
+.........................................
 
 ``strfmon`` is used to format a number as currency.
 

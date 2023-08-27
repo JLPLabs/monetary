@@ -22,26 +22,31 @@ The library provides two functions, as shown by the record definition::
 Example Use
 ...........
 
-Say we want to format numbers for for printing like:
-$    10,499.50
-$ 1,234,567.00
+Say we want to format numbers for for printing like::
 
-Or without cents, rounding the values:
-$    10,500   
-$ 1,234,567
+  $    10,499.50
+  $ 1,234,567.00
 
--- file: doc_monetary.tl -------------------------------------------------
-local m = require "monetary"
-local strfmon = m.strfmon
+Or without cents, rounding the values::
 
-local val1 = 10499.50
-local val2 = 1234567
+  $    10,500   
+  $ 1,234,567
 
-print(strfmon("%#8.2n", val1))   -- space for 8 digits to left, ...
-print(strfmon("%#8.2n", val2))   --    and 2 to right of decimal
-print()
-print(strfmon("%#8.0n", val1))   -- space for 8 digits to left, ...
-print(strfmon("%#8.0n", val2))   --    and none to the right of decimal
+doc_monetary.tl
+...............
+::
+
+  local m = require "monetary"
+  local strfmon = m.strfmon
+
+  local val1 = 10499.50
+  local val2 = 1234567
+
+  print(strfmon("%#8.2n", val1))   -- space for 8 digits to left, ...
+  print(strfmon("%#8.2n", val2))   --    and 2 to right of decimal
+  print()
+  print(strfmon("%#8.0n", val1))   -- space for 8 digits to left, ...
+  print(strfmon("%#8.0n", val2))   --    and none to the right of decimal
 
 
 Functions

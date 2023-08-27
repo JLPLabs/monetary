@@ -79,7 +79,7 @@ The ``fmt`` argument has a number of optional flags between the required opening
            since '-' is used to indicate "left-justification".) To indicate
            negative numbers by enclosing them in parenthesis use the '(' flag.
 
-  '!'      Turn off use of currency symbol. By default the symbol is enabled.
+  '!'      Turn off use of currency symbol. Currency symbol is on by default.
 
   '-'      The output is left-justified. By default output is right-justified.
            Justificaiton is only relevant when the entire field isn't filled.

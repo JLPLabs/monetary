@@ -10,8 +10,8 @@ It is very similar (but not identical to) ``strfmon`` as defined by GNU[1].
 
 This library does not use the system locale. Instead we give a rough
 approximation by allowing the user to define the symbols used for the thousands
-separator, the decimal point, and currency symbol; which the default is ',',
-'.', and '$' respectively.
+separator, the decimal point, and currency symbol; which the default is ``,``,
+``.``, and ``$`` respectively.
 
 The library provides two functions, as shown by the record definition::
 

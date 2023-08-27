@@ -71,7 +71,7 @@ doc_monetary.tl
   print( strfmon(fmt1, val2) )   -- € 1.234.567,00
   print()
   print( strfmon(fmt2, val1) )   -- €    10.500
-  print( strfmon(fmt2, val2) )   -- € 1.234.567  local m = require "monetary"
+  print( strfmon(fmt2, val2) )   -- € 1.234.567 
 
 Functions
 ---------

@@ -62,7 +62,7 @@ The library defaults to ',' for thousands and '.' for decimal point. To override
 these defaults call this function with the desired separators.
 
 To set '.' as thousands and ',' as decimal point...
-``setset(".", ",")``
+``setsep(".", ",")``
 
 strfmon(fmt: string, val: number)
 .................................

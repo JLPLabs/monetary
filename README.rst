@@ -10,14 +10,13 @@ It is very similar (but not identical to) ``strfmon`` as defined by GNU[1].
 
 This library does not use the system locale. Instead we give a rough
 approximation by allowing the user to define the symbols used for the thousands
-separator and the decimal point; which the default is ',' and '.', respectively.
-
-Unlike in [1], there is currently no mechanism to change the currency symbol.
+separator, the decimal point, and currency symbol; which the default is ',',
+'.', and '$' respectively.
 
 The library provides two functions, as shown by the record definition::
 
   local type M = record
-    setsep:   function(thou: string, dec: string)
+    localize: function(thou: string, dec: string, cur: string)
     strfmon:  function(fmt: string, val: number): string
   end
 
@@ -34,6 +33,14 @@ Or without cents, rounding the values::
   $    10,500   
   $ 1,234,567
 
+Localized::
+
+  €    10.499,50
+  € 1.234.567,00
+
+  €    10.500
+  € 1.234.567
+
 We can use code as shown in ``doc_monetary.tl``.
 
 doc_monetary.tl
@@ -42,29 +49,44 @@ doc_monetary.tl
 
   local m = require "monetary"
   local strfmon = m.strfmon
+  local localize = m.localize
 
   local val1 = 10499.50
   local val2 = 1234567
 
-  print(strfmon("%#8.2n", val1))   -- space for 8 digits to left, ...
-  print(strfmon("%#8.2n", val2))   --    and 2 to right of decimal
-  print()
-  print(strfmon("%#8.0n", val1))   -- space for 8 digits to left, ...
-  print(strfmon("%#8.0n", val2))   --    and none to the right of decimal
+  local fmt1 = "%#8.2n"    -- 8 digits to left of decimal; 2 to right
+  local fmt2 = "%#8.0n"    --               "            ; 0 to right
 
+  print( strfmon(fmt1, val1) )   -- $    10,499.50
+  print( strfmon(fmt1, val2) )   -- $ 1,234,567.00
+  print()
+  print( strfmon(fmt2, val1) )   -- $    10,500
+  print( strfmon(fmt2, val2) )   -- $ 1,234,567
+
+  print()
+  print("localized...")
+  localize(".",",","€")
+
+  print( strfmon(fmt1, val1) )   -- €    10.499,50
+  print( strfmon(fmt1, val2) )   -- € 1.234.567,00
+  print()
+  print( strfmon(fmt2, val1) )   -- €    10.500
+  print( strfmon(fmt2, val2) )   -- € 1.234.567  local m = require "monetary"
 
 Functions
 ---------
 
-setsep(thou: string, dec: string)
-.................................
+localize(thou: string, dec: string, cur: string)
+................................................
 
-``setsep`` is used to set the separators used in the formatted string.
-The library defaults to ',' for thousands and '.' for decimal point. To override
-these defaults call this function with the desired separators.
+``localize`` is used to set the separators used in the formatted string and the
+currency symbol.  The library defaults to ',' for thousands, '.' for decimal
+point and '$' for currency. To override these defaults call ``localize`` with
+the desired separators.
 
-To set '.' as thousands and ',' as decimal point...
-``setsep(".", ",")``
+For example, to set '.' as thousands, ',' as decimal point and '€' for currency::
+
+  localize(".", ",", "€")
 
 strfmon(fmt: string, val: number): string
 .........................................
@@ -117,5 +139,11 @@ The ``fmt`` argument has a number of optional flags between the required opening
                  0's are padded to fill out the minimum width, or, if the
                  decimal portion exceeds <r> then the floating portion is
                  rounded to <r> places.
+
+Bugs
+----
+Using UTF-8 for currency symbol sometimes results in unexpected field widths.
+Perhaps we'll take time to resolve this (no promises). 
+
 
 [1] https://www.gnu.org/software/libc/manual/html_node/Formatting-Numbers.html

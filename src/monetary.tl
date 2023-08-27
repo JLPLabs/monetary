@@ -116,21 +116,24 @@ end
 
 -- the Module, M --------------------------------------------------------------
 
--- separators, default
+-- separators & currency, default
 local thou = ","
 local dec  = "."
 local finddig = "%d%."  -- find digit immediately before decimal point
+local cur = "$"
 
 -- module as record
 local type M = record
-  setsep: function(thou: string, dec: string)
-  strfmon: function(fmt: string, val: number): string
+  localize: function(thou: string, dec: string, cur: string)
+  strfmon:  function(fmt: string, val: number): string
 end
 
 -- set separators
-function M.setsep(t: string, d: string)
-  thou = t
-  dec = d
+-- currency symbol should not be UTF-8
+function M.localize(t: string, d: string, c: string)
+  thou = t or thou
+  dec = d or dec
+  cur = c or cur
   finddig = string.format("%%d%%%s", dec)
 end
 
@@ -156,22 +159,28 @@ local function round(val: number, d: integer): number
   local res = tmp / m
   if not pos then res = -res end
   if d == 0 then 
-    return math.tointeger(res)
-  else
-    return res
+    res = math.tointeger(res)
   end
+  return res
 end
 
 
--- convert number to string, add 000's separator
+-- convert number to string, update decimal point, add 000's separator
 local function isgroup(flag: boolean, val: number): string
+  -- to string
   local pos = val >= 0
   val = math.abs(val)
   local res = tostring(val)
+
+  -- update decimal point to localized version
+  local i = res:find("%.")
+  if i then res = res:sub(1,i-1)..dec..res:sub(i+1) end
+
+  -- add 000's separator
   if flag then
     local nsep = math.floor(math.log(val, 10*10*10))  -- number of 000's separators
     local j = res:find(finddig) or #res         -- find digit left of decimal point 
-    for _ = 1, nsep do
+     for _ = 1, nsep do
       res = res:sub(1,j-3)..thou..res:sub(j-2)
       j = j - 3
     end
@@ -196,10 +205,10 @@ local function issign(flag: boolean, str: string): string
   return res
 end
 
--- use '$' or not
+-- use currency symbol or not
 local function iscur(flag: boolean, str: string): string
   local res = str
-  if flag then res = "$"..res end
+  if flag then res = cur..res end
   return res
 end
 
@@ -249,7 +258,7 @@ local function rightw(flag: integer, str: string): string
   local j, k = res:find(decptdigs)
   local count = 0
   if k then count = k - j end
-  
+
   -- too few? (or just right), Pad with 0; DONE
   if count <= flag then
     res = res:sub(1,k) .. string.rep("0", flag-count) .. res:sub(k+1)

@@ -120,6 +120,7 @@ end
 local thou = ","
 local dec = "."
 local finddig = "%d%."
+local cur = "$"
 
 
 local M = {}
@@ -128,9 +129,11 @@ local M = {}
 
 
 
-function M.setsep(t, d)
-   thou = t
-   dec = d
+
+function M.localize(t, d, c)
+   thou = t or thou
+   dec = d or dec
+   cur = c or cur
    finddig = string.format("%%d%%%s", dec)
 end
 
@@ -156,18 +159,24 @@ local function round(val, d)
    local res = tmp / m
    if not pos then res = -res end
    if d == 0 then
-      return math.tointeger(res)
-   else
-      return res
+      res = math.tointeger(res)
    end
+   return res
 end
 
 
 
 local function isgroup(flag, val)
+
    local pos = val >= 0
    val = math.abs(val)
    local res = tostring(val)
+
+
+   local i = res:find("%.")
+   if i then res = res:sub(1, i - 1) .. dec .. res:sub(i + 1) end
+
+
    if flag then
       local nsep = math.floor(math.log(val, 10 * 10 * 10))
       local j = res:find(finddig) or #res
@@ -199,7 +208,7 @@ end
 
 local function iscur(flag, str)
    local res = str
-   if flag then res = "$" .. res end
+   if flag then res = cur .. res end
    return res
 end
 

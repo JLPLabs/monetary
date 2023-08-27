@@ -1,6 +1,8 @@
 MONETARY LIBRARY
 ================
 
+Monetary string formatting library in Teal (and Lua).
+
 Overview
 --------
 Monetary is a pure-Teal library for string formatting numbers as currency.

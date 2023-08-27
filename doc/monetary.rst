@@ -32,6 +32,8 @@ Or without cents, rounding the values::
   $    10,500   
   $ 1,234,567
 
+We can use code as shown in ``doc_monetary.tl``.
+
 doc_monetary.tl
 ...............
 ::

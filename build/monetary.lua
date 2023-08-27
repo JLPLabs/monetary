@@ -206,9 +206,11 @@ local function issign(flag, str)
 end
 
 
+
+
 local function iscur(flag, str)
    local res = str
-   if flag then res = cur .. res end
+   if flag then res = '$' .. res end
    return res
 end
 
@@ -284,6 +286,16 @@ end
 
 
 
+local function currsym(flag, str)
+   local res = str
+   if flag and cur ~= "$" then
+      local i = res:find("%$")
+      res = res:sub(1, i - 1) .. cur .. res:sub(i + 1)
+   end
+   return res
+end
+
+
 local function printflags(flags)
    printf("[t: [%s], d: [%s]] ", thou, dec)
    printf("[g: %s, s: %s, c: %s, r: %s] ", flags.isgroup, flags.issign, flags.iscur,
@@ -311,6 +323,7 @@ function M.strfmon(fmt, val)
    res = leftw(flags.leftw, flags.isgroup, flags.issign, res)
    res = rightw(flags.rightw, res)
    res = frame(flags.isright, flags.width, res)
+   res = currsym(flags.iscur, res)
 
    return res
 end

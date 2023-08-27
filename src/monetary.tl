@@ -129,7 +129,7 @@ local type M = record
 end
 
 -- set separators
--- currency symbol should not be UTF-8
+-- currency symbol *can* be UTF-8
 function M.localize(t: string, d: string, c: string)
   thou = t or thou
   dec = d or dec
@@ -206,9 +206,11 @@ local function issign(flag: boolean, str: string): string
 end
 
 -- use currency symbol or not
+-- if 'yes', then use '$' throughout as a placeholder, replaced in 
+-- the very last step of strfmon w/ the correct symbol.
 local function iscur(flag: boolean, str: string): string
   local res = str
-  if flag then res = cur..res end
+  if flag then res = '$'..res end
   return res
 end
 
@@ -283,6 +285,16 @@ local function frame(isrightflag: boolean, widthflag: integer, str: string): str
 end
 
 
+-- replace placeholder currency value '$' with requested symbol, as needed
+local function currsym(flag: boolean, str: string): string
+  local res = str
+  if flag and cur ~= "$" then
+    local i = res:find("%$")
+    res = res:sub(1,i-1) .. cur .. res:sub(i+1)
+  end
+  return res
+end
+
 -- debug tool
 local function printflags(flags: Flags)
   printf("[t: [%s], d: [%s]] ", thou, dec)
@@ -311,7 +323,8 @@ function M.strfmon(fmt: string, val: number): string
   res = leftw(flags.leftw, flags.isgroup, flags.issign, res)
   res = rightw(flags.rightw, res)
   res = frame(flags.isright, flags.width, res)
-
+  res = currsym(flags.iscur, res)
+  
   return res 
 end
 

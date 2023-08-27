@@ -145,5 +145,6 @@ Bugs
 Using UTF-8 for currency symbol sometimes results in unexpected field widths.
 Perhaps we'll take time to resolve this (no promises). 
 
-
+References
+----------
 [1] https://www.gnu.org/software/libc/manual/html_node/Formatting-Numbers.html

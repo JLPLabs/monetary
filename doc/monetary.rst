@@ -67,10 +67,10 @@ To set '.' as thousands and ',' as decimal point...
 strfmon(fmt: string, val: number): string
 .........................................
 
-``strfmon`` is used to format a number as currency.
+``strfmon`` is used to format a number as currency. It returns a string.
 
-``fmt`` has a number of optional flags between the required opening '%' and
- closing 'n'.  They are, in order::
+The ``fmt`` argument has a number of optional flags between the required opening
+'%' and closing 'n'.  They are, in order::
 
   '^'      Turn off use of thousands grouping. By default grouping is enabled.
 

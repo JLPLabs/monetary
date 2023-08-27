@@ -140,10 +140,6 @@ The ``fmt`` argument has a number of optional flags between the required opening
                  decimal portion exceeds <r> then the floating portion is
                  rounded to <r> places.
 
-Bugs
-----
-Using UTF-8 for currency symbol sometimes results in unexpected field widths.
-Perhaps we'll take time to resolve this (no promises). 
 
 References
 ----------

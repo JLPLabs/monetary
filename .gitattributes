@@ -1,1 +1,2 @@
+# see: https://github.com/github-linguist/linguist/blob/master/docs/overrides.md#using-gitattributes
 *.tl linguist-language=Teal

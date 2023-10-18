@@ -23,7 +23,7 @@ The library provides two functions, as shown by the record definition::
 Example Use
 ...........
 
-Say we want to format numbers for for printing like::
+Say we want to format numbers for printing like::
 
   $    10,499.50
   $ 1,234,567.00
